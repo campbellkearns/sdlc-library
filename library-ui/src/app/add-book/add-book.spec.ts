@@ -55,4 +55,10 @@ describe('AddBook', () => {
     );
   })
 
+  it('requires an author [AC1]', async () => {
+    await fill('author', '   ');
+
+    expect(page.textContent).toContain('Author is required');
+  })
+
 });

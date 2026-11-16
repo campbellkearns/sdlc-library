@@ -28,11 +28,15 @@ export class AddBook {
     // AC1: the service's @NotBlank.
     required(book.title, { message: 'Title is required.' });
     pattern(book.title, NOT_BLANK, {
-      message: 'Title is required.'
-    })
-
+      message: 'Title is required.',
+    });
     maxLength(book.title, 200, {
-      message:'Title must be at most 200 characters.'
-    })
+      message: 'Title must be at most 200 characters.',
+    });
+
+    required(book.author, { message: 'Author is required' });
+    pattern(book.author, NOT_BLANK, {
+      message: 'Author is required.',
+    });
   });
 }
