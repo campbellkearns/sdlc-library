@@ -31,34 +31,32 @@ describe('AddBook', () => {
 
   it('requires a title [AC1]', async () => {
     await fill('title', '');
-
     expect(page.textContent).toContain('Title is required.');
   });
 
   it('treats only spaces as empty [AC1]', async () => {
     await fill('title', '   ');
-
     expect(page.textContent).toContain('Title is required.');
   });
 
   it('accepts a title of 200 characters exactly [AC2]', async () => {
     await fill('title', 'x'.repeat(200));
-
-    expect(page.querySelector('.field-error')).toBeNull()   
+    expect(page.querySelector('.field-error')).toBeNull();
   });
 
   it('refuses a title of 201 characters [AC2]', async () => {
     await fill('title', 'x'.repeat(201));
-
-    expect(page.textContent).toContain(
-      'Title must be at most 200 characters.'
-    );
-  })
+    expect(page.textContent).toContain('Title must be at most 200 characters.');
+  });
 
   it('requires an author [AC1]', async () => {
     await fill('author', '   ');
-
     expect(page.textContent).toContain('Author is required');
-  })
+  });
+
+  it('refuses an author of 201 characters (AC2)', async () => {
+    await fill('author', 'x'.repeat(201));
+    expect(page.textContent).toContain('Author must be at most 200 characters.');
+  });
 
 });

@@ -3,14 +3,19 @@
         <label for="title">Title</label>
         <input id="title" [formField]="bookForm.title" />
         @if (bookForm.title().touched() && bookForm.title().invalid()) {
-        @for (error of bookForm.title().errors(); track error) {
-        <p class="field-error">{{ error.message }}</p>
-        }
+            @for (error of bookForm.title().errors(); track error) {
+                <p class="field-error">{{ error.message }}</p>
+            }
         }
     </div>
 
     <div class="field">
         <label for="author">Author</label>
         <input id="author" [formField]="bookForm.author" />
+        @if (bookForm.author().touched() && bookForm.author().invalid()) {
+            @for (error of bookForm.author().errors(); track error) {
+                <p class="field-error">{{ error.message }}</p>
+            }
+        }
     </div>
 </form>
