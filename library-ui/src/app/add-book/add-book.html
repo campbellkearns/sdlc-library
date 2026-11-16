@@ -18,4 +18,14 @@
             }
         }
     </div>
+
+    <div class="field">
+      <label for="year">Year</label>
+      <input id="year" type="number" step="1" [formField]="bookForm.year" />
+      @if (bookForm.year().touched() && bookForm.year().invalid()) {
+        @for (error of bookForm.year().errors(); track error) {
+          <p class="field-error">{{ error.message }}</p>
+        }
+      }
+    </div>
 </form>

@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { form, FormField, FormRoot, required, pattern, maxLength } from '@angular/forms/signals';
+import { form, FormField, FormRoot, required, pattern, maxLength, min, max } from '@angular/forms/signals';
 import { Book } from '../book';
 
 interface BookForm {
@@ -13,6 +13,7 @@ function emptyBook(): BookForm {
 }
 
 const NOT_BLANK = /\S/;
+const YEAR_RANGE = 'Year must be from 1 to 2100.';
 
 @Component({
   imports: [FormField, FormRoot],
@@ -38,5 +39,12 @@ export class AddBook {
     pattern(book.author, NOT_BLANK, {
       message: 'Author is required.',
     });
+    maxLength(book.author, 200, {
+      message: 'Author must be at most 200 characters.',
+    });
+
+    required(book.year, { message: 'Year is required.' });
+    min(book.year, 1, { message: YEAR_RANGE });
+    max(book.year, 2100, { message: YEAR_RANGE });
   });
 }

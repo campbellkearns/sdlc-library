@@ -59,4 +59,19 @@ describe('AddBook', () => {
     expect(page.textContent).toContain('Author must be at most 200 characters.');
   });
 
+  it('requires a year (AC3)', async () => {
+    await fill('year', '');
+    expect(page.textContent).toContain('Year is required.');
+  });
+  it('refuses a year outside 1 to 2100 (AC3)', async () => {
+    await fill('year', '2101');
+    expect(page.textContent).toContain('Year must be from 1 to 2100.');
+  });
+
+  it('accepts the years 1 and 2100 (AC3)', async () => {
+    await fill('year', '1');
+    expect(page.querySelector('.field-error')).toBeNull();
+    await fill('year', '2100');
+    expect(page.querySelector('.field-error')).toBeNull();
+  });
 });
