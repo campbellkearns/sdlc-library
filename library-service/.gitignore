@@ -1,0 +1,7 @@
+target/
+# Working data is not committed. The seed is: copy it to books.csv to start.
+data/*
+!data/books.seed.csv
+.idea/
+*.iml
+.vscode/

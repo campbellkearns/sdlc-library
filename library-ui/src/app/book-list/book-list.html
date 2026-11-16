@@ -1,0 +1,17 @@
+<section class="book-list">
+  <h2>Books</h2>
+  <p class="note">Kept in this browser tab only. The Spring Library service knows nothing about this list.</p>
+
+  <ul>
+    @for (book of books(); track book.id) {
+      <li>
+        <app-book-card [book]="book" />
+        <button (click)="remove(book.id)">Remove</button>
+      </li>
+    } @empty {
+      <li>No books on the shelf.</li>
+    }
+  </ul>
+
+  <p><strong>On the shelf:</strong> {{ count() }}</p>
+</section>

@@ -1,0 +1,15 @@
+# Instructor-only notes: stay on the instructor's machine
+INSTRUCTOR-GUIDE.md
+
+# Dependencies and build output
+node_modules/
+.angular/
+dist/
+out-tsc/
+target/
+
+# Editors and operating systems
+.idea/
+*.iml
+.DS_Store
+Thumbs.db

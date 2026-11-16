@@ -1,0 +1,11 @@
+<form [formRoot]="bookForm">
+    <div class="field">
+        <label for="title">Title</label>
+        <input id="title" [formField]="bookForm.title" />
+        @if (bookForm.title().touched() && bookForm.title().invalid()) {
+        @for (error of bookForm.title().errors(); track error) {
+        <p class="field-error">{{ error.message }}</p>
+        }
+        }
+    </div>
+</form>

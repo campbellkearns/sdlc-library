@@ -1,0 +1,38 @@
+import { Component, signal } from '@angular/core';
+import { form, FormField, FormRoot, required, pattern, maxLength } from '@angular/forms/signals';
+import { Book } from '../book';
+
+interface BookForm {
+  title: string;
+  author: string;
+  year: number | null;
+}
+// A fresh, empty form each time it is called.
+function emptyBook(): BookForm {
+  return { title: '', author: '', year: null };
+}
+
+const NOT_BLANK = /\S/;
+
+@Component({
+  imports: [FormField, FormRoot],
+  selector: 'app-add-book',
+  styleUrl: './add-book.css',
+  templateUrl: './add-book.html',
+})
+export class AddBook {
+  protected readonly lastAdded = signal<Book | null>(null);
+  // The model is a plain signal. The form is a view over it.
+  protected readonly bookModel = signal<BookForm>(emptyBook());
+  protected readonly bookForm = form(this.bookModel, (book) => {
+    // AC1: the service's @NotBlank.
+    required(book.title, { message: 'Title is required.' });
+    pattern(book.title, NOT_BLANK, {
+      message: 'Title is required.'
+    })
+
+    maxLength(book.title, 200, {
+      message:'Title must be at most 200 characters.'
+    })
+  });
+}

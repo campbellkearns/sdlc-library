@@ -1,0 +1,34 @@
+/* Global styles: the page font, the header bar and the page width. */
+:root {
+  font-family: system-ui, sans-serif;
+  color: #1f2933;
+}
+
+body {
+  margin: 0;
+  background: #f6f4ef;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  background: #2f4858;
+  color: #fff;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+main {
+  max-width: 640px;
+  margin: 24px auto;
+  padding: 0 24px;
+}
+
+button {
+  cursor: pointer;
+}

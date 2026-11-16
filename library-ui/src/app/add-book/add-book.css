@@ -1,0 +1,32 @@
+.add-book {
+  margin-bottom: 24px;
+}
+
+.error {
+  color: #b00020;
+  font-weight: 600;
+}
+
+.result {
+  color: #1e7d32;
+  font-weight: 600;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 320px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.field-error {
+  color: #b00020;
+  font-size: 0.85rem;
+  margin: 0;
+}
