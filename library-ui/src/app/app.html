@@ -4,6 +4,10 @@
 </header>
 
 <main>
+  @if (loadError(); as message) {
+    <p class="load-error">{{ message }}</p>
+  }
+
   <app-add-book />
   <app-book-list />
 </main>

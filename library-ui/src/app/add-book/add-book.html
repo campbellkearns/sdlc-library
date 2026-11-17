@@ -1,22 +1,25 @@
-<form [formRoot]="bookForm">
+<section class="add-book">
+  <h2>Add a book</h2>
+
+  <form [formRoot]="bookForm">
     <div class="field">
-        <label for="title">Title</label>
-        <input id="title" [formField]="bookForm.title" />
-        @if (bookForm.title().touched() && bookForm.title().invalid()) {
-            @for (error of bookForm.title().errors(); track error) {
-                <p class="field-error">{{ error.message }}</p>
-            }
+      <label for="title">Title</label>
+      <input id="title" [formField]="bookForm.title" />
+      @if (bookForm.title().touched() && bookForm.title().invalid()) {
+        @for (error of bookForm.title().errors(); track error) {
+          <p class="field-error">{{ error.message }}</p>
         }
+      }
     </div>
 
     <div class="field">
-        <label for="author">Author</label>
-        <input id="author" [formField]="bookForm.author" />
-        @if (bookForm.author().touched() && bookForm.author().invalid()) {
-            @for (error of bookForm.author().errors(); track error) {
-                <p class="field-error">{{ error.message }}</p>
-            }
+      <label for="author">Author</label>
+      <input id="author" [formField]="bookForm.author" />
+      @if (bookForm.author().touched() && bookForm.author().invalid()) {
+        @for (error of bookForm.author().errors(); track error) {
+          <p class="field-error">{{ error.message }}</p>
         }
+      }
     </div>
 
     <div class="field">
@@ -30,14 +33,13 @@
     </div>
 
     <button type="submit">Save book</button>
-</form>
+  </form>
 
-<!-- AC5, AC7: the action's answer when the save fails. -->
-@for (error of bookForm().errors(); track error) {
+  @for (error of bookForm().errors(); track error) {
     <p class="error">{{ error.message }}</p>
-}
+  }
 
-<!-- AC4: what was just saved. -->
-@if (lastAdded(); as book) {
+  @if (lastAdded(); as book) {
     <p class="result">Added {{ book.title }} by {{ book.author }} ({{ book.year }}).</p>
-}
+  }
+</section>

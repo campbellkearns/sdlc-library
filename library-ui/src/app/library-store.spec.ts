@@ -26,14 +26,23 @@ describe('LibraryStore', () => {
     expect(store).toBeTruthy();
   });
 
-  it('starts with five books', () => {
-    expect(store.count()).toBe(5);
+  // Was "starts with five books". The shelf now comes from
+  // the Library service (AC6).
+  it('starts empty until the catalogue arrives', () => {
+    expect(store.count()).toBe(0);
   });
 
+  // Now arranges its own books, not the old fake shelf.
   it('removes a book by id', () => {
+    store.setAll([
+      makeBook({ id: 'b1' }),
+      makeBook({ id: 'b2' }),
+    ]);
+
     store.remove('b1');
-    expect(store.count()).toBe(4);
-    expect(store.books().some((b) => b.id === 'b1')).toBe(false);
+
+    const ids = store.books().map((b) => b.id);
+    expect(ids).toEqual(['b2']);
   });
 
   // LIB-2, AC4
@@ -45,5 +54,18 @@ describe('LibraryStore', () => {
 
     expect(store.count()).toBe(before + 1);
     expect(store.books().at(-1)).toEqual(sower);
+  });
+
+  // LIB-2, AC6
+  it('setAll() replaces the shelf with the catalogue', () => {
+    store.add(makeBook({ id: 'old' }));
+
+    store.setAll([
+      makeBook({ id: 'x1' }),
+      makeBook({ id: 'x2' }),
+    ]);
+
+    const ids = store.books().map((b) => b.id);
+    expect(ids).toEqual(['x1', 'x2']);
   });
 });

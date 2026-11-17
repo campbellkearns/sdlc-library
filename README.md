@@ -1,5 +1,7 @@
 # Library: Add a Book (LIB-2), lab
 
+> **Labs in this repo:** LIB-2, Add a Book (this page) · [Lab 19, Routing](docs/lab-19-routing.md)
+
 You are finishing one user story, **test first**. In class we wrote the story and its acceptance criteria, broke it into tasks, and started task T1: the title's rules already work, with four tests. Now you finish the story.
 
 The business requirements are in [`docs/brd-excerpt.md`](docs/brd-excerpt.md).

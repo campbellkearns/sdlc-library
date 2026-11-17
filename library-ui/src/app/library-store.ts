@@ -3,40 +3,10 @@ import { Book } from './book';
 
 @Service()
 export class LibraryStore {
-  // The only writable copy of the list. private: nothing outside this class can call .set() on it.
-  // In the real Library the service makes the ids (UUIDs). Short ids keep today's demo readable.
-  private readonly shelf = signal<Book[]>([
-    {
-      id: 'b1',
-      title: 'The Heaven & Earth Grocery Store',
-      author: 'James McBride',
-      year: 2023,
-    },
-    {
-      id: 'b2',
-      title: 'Emergent Strategy',
-      author: 'adrienne maree brown',
-      year: 2017,
-    },
-    {
-      id: 'b3',
-      title: 'The Will to Change',
-      author: 'bell hooks',
-      year: 2004,
-    },
-    {
-      id: 'b4',
-      title: "The Sense of Style: The Thinking Person's Guide to Writing in the 21st Century",
-      author: 'Steven Pinker',
-      year: 2014,
-    },
-    {
-      id: 'b5',
-      title: 'What I Talk About When I Talk About Running',
-      author: 'Haruki Murakami',
-      year: 2008,
-    },
-  ]);
+  // The only writable copy of the list. private: nothing
+  // outside this class can call .set() on it. It starts empty:
+  // the catalogue comes from the Library service (LIB-2, AC6).
+  private readonly shelf = signal<Book[]>([]);
 
   // A read-only view: can be read, has no .set() or .update().
   readonly books = this.shelf.asReadonly();
@@ -46,13 +16,18 @@ export class LibraryStore {
     return this.shelf().length;
   });
 
+  // AC6: replace the shelf with the service's catalogue.
+  setAll(books: Book[]): void {
+    this.shelf.set(books);
+  }
+
   // AC4: a saved book goes on the end of the shelf.
   // A new array, never an edit of the old one.
   add(book: Book): void {
     this.shelf.update((current) => [...current, book]);
   }
 
-  // It builds a new array, it never edits the old one.
+  // Local to this tab only. Removing for real is LIB-3.
   remove(id: string): void {
     this.shelf.update((current) =>
       current.filter((b) => b.id !== id),

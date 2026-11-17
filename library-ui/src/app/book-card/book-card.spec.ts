@@ -21,8 +21,4 @@ describe('BookCard', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('should have books on load', () => {
-
-  })
 });
