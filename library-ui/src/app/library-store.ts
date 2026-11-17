@@ -46,7 +46,13 @@ export class LibraryStore {
     return this.shelf().length;
   });
 
-  // The only way to change the list. It builds a new array, it never edits the old one.
+  // AC4: a saved book goes on the end of the shelf.
+  // A new array, never an edit of the old one.
+  add(book: Book): void {
+    this.shelf.update((current) => [...current, book]);
+  }
+
+  // It builds a new array, it never edits the old one.
   remove(id: string): void {
     this.shelf.update((current) =>
       current.filter((b) => b.id !== id),

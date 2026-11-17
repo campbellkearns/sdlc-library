@@ -1,6 +1,8 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { form, FormField, FormRoot, required, pattern, maxLength, min, max } from '@angular/forms/signals';
 import { Book } from '../book';
+import { BooksApi } from '../books-api';
+import { LibraryStore } from '../library-store';
 
 interface BookForm {
   title: string;
@@ -22,6 +24,9 @@ const YEAR_RANGE = 'Year must be from 1 to 2100.';
   templateUrl: './add-book.html',
 })
 export class AddBook {
+  private readonly api = inject(BooksApi);
+  private readonly store = inject(LibraryStore);
+
   protected readonly lastAdded = signal<Book | null>(null);
   // The model is a plain signal. The form is a view over it.
   protected readonly bookModel = signal<BookForm>(emptyBook());
@@ -35,7 +40,7 @@ export class AddBook {
       message: 'Title must be at most 200 characters.',
     });
 
-    required(book.author, { message: 'Author is required' });
+    required(book.author, { message: 'Author is required.' });
     pattern(book.author, NOT_BLANK, {
       message: 'Author is required.',
     });
@@ -46,5 +51,14 @@ export class AddBook {
     required(book.year, { message: 'Year is required.' });
     min(book.year, 1, { message: YEAR_RANGE });
     max(book.year, 2100, { message: YEAR_RANGE });
+  },
+  {
+    submission: {
+      // Runs only when every rule passes.
+      // T3: send the book to the Library service. (Demo.)
+      action: async (field) => {
+        return;
+      },
+    },
   });
 }

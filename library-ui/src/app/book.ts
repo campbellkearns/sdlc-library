@@ -7,3 +7,11 @@ export interface Book {
   author: string;
   year: number;
 }
+
+// What the UI sends to POST /api/books: the Java BookRequest.
+// No id: the service chooses it.
+export interface BookRequest {
+  title: string;
+  author: string;
+  year: number;
+}

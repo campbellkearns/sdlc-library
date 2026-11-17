@@ -28,4 +28,16 @@
         }
       }
     </div>
+
+    <button type="submit">Save book</button>
 </form>
+
+<!-- AC5, AC7: the action's answer when the save fails. -->
+@for (error of bookForm().errors(); track error) {
+    <p class="error">{{ error.message }}</p>
+}
+
+<!-- AC4: what was just saved. -->
+@if (lastAdded(); as book) {
+    <p class="result">Added {{ book.title }} by {{ book.author }} ({{ book.year }}).</p>
+}

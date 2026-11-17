@@ -1,6 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AddBook } from './add-book';
 
+const KINDRED = {
+  title: 'Kindred',
+  author: 'Octavia E. Butler',
+  year: 1979,
+};
+
 describe('AddBook', () => {
   let component: AddBook;
   let fixture: ComponentFixture<AddBook>;
@@ -22,6 +28,18 @@ describe('AddBook', () => {
     el.value = value;
     el.dispatchEvent(new Event('input'));
     el.dispatchEvent(new Event('blur'));
+    await fixture.whenStable();
+  }
+
+  async function fillValidBook() {
+    await fill('title', KINDRED.title);
+    await fill('author', KINDRED.author);
+    await fill('year', String(KINDRED.year));
+  }
+
+  // Clicks Save, as a person would.
+  async function save() {
+    page.querySelector('button')!.click();
     await fixture.whenStable();
   }
 
@@ -51,7 +69,7 @@ describe('AddBook', () => {
 
   it('requires an author [AC1]', async () => {
     await fill('author', '   ');
-    expect(page.textContent).toContain('Author is required');
+    expect(page.textContent).toContain('Author is required.');
   });
 
   it('refuses an author of 201 characters (AC2)', async () => {
