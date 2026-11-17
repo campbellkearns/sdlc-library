@@ -1,5 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AddBook } from './add-book';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { LIBRARY_API } from '../books-api';
 
 const KINDRED = {
   title: 'Kindred',
@@ -11,15 +14,21 @@ describe('AddBook', () => {
   let component: AddBook;
   let fixture: ComponentFixture<AddBook>;
   let page: HTMLElement;
+  let httpTesting: HttpTestingController;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AddBook],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting()
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(AddBook);
     component = fixture.componentInstance;
     page = fixture.nativeElement;
+    httpTesting = TestBed.inject(HttpTestingController);
     await fixture.whenStable();
   });
 
@@ -92,4 +101,13 @@ describe('AddBook', () => {
     await fill('year', '2100');
     expect(page.querySelector('.field-error')).toBeNull();
   });
+
+  it('sends the book to the service [AC4]', async () => {
+    await fillValidBook();
+    await save();
+
+    const request = httpTesting.expectOne(LIBRARY_API);
+    expect(request.request.method).toBe('POST');
+    expect(request.request.body).toEqual(KINDRED);
+  })
 });
