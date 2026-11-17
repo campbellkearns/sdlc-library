@@ -1,10 +1,11 @@
 import { Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { BookCard } from '../book-card/book-card';
 import { LibraryStore } from '../library-store';
 
 @Component({
   selector: 'app-book-list',
-  imports: [BookCard],
+  imports: [BookCard, RouterLink],
   templateUrl: './book-list.html',
   styleUrl: './book-list.css',
 })

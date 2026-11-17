@@ -1,0 +1,15 @@
+<section class="book-detail">
+  @if (notFound()) {
+    <app-not-found [message]="'There is no book with the id ' + id() + '.'" />
+  } @else {
+    @if (book.error()) {
+      <p class="error">Could not load this book.</p>
+    } @else if (book.value(); as b) {
+      <h2>{{ b.title }}</h2>
+      <p>{{ b.author }}, {{ b.year }}</p>
+    } @else {
+      <p class="loading">Loading the book…</p>
+    }
+    <p><a routerLink="/books">Back to the catalogue</a></p>
+  }
+</section>

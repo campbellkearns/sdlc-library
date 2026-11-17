@@ -1,5 +1,13 @@
 <header>
   <h1>{{ title() }}</h1>
+  <nav>
+    <a
+      routerLink="/books"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >Catalogue</a>
+    <a routerLink="/books/new" routerLinkActive="active">Add a book</a>
+  </nav>
   <app-book-count />
 </header>
 
@@ -8,8 +16,6 @@
     <p class="load-error">{{ message }}</p>
   }
 
-  <app-add-book />
-  <app-book-list />
+  <!-- The routed screen appears here. The header stays. -->
+  <router-outlet />
 </main>
-
-<router-outlet />

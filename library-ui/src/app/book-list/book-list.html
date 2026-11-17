@@ -6,6 +6,7 @@
     @for (book of books(); track book.id) {
       <li>
         <app-book-card [book]="book" />
+        <a [routerLink]="['/books', book.id]">Details</a>
         <button (click)="remove(book.id)">Remove</button>
       </li>
     } @empty {

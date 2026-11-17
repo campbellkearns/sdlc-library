@@ -1,14 +1,12 @@
 import { Component, inject, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { AddBook } from './add-book/add-book';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { BookCount } from './book-count/book-count';
-import { BookList } from './book-list/book-list';
 import { BooksApi } from './books-api';
 import { LibraryStore } from './library-store';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, AddBook, BookList, BookCount],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, BookCount],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

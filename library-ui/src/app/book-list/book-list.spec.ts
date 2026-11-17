@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 
 import { BookList } from './book-list';
 
@@ -9,6 +10,8 @@ describe('BookList', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [BookList],
+      // The Details links need the router's providers.
+      providers: [provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(BookList);
