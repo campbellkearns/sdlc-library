@@ -1,8 +1,14 @@
 import { Component, inject, signal } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import {
+  Router,
+  RouterLink,
+  RouterLinkActive,
+  RouterOutlet,
+} from '@angular/router';
 import { BookCount } from './book-count/book-count';
 import { BooksApi } from './books-api';
 import { LibraryStore } from './library-store';
+import { TokenStore } from './token-store';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +19,8 @@ import { LibraryStore } from './library-store';
 export class App {
   private readonly api = inject(BooksApi);
   private readonly store = inject(LibraryStore);
+  private readonly router = inject(Router);
+  protected readonly tokenStore = inject(TokenStore);
 
   protected readonly title = signal('Library');
   protected readonly loadError = signal<string | null>(null);
@@ -26,5 +34,11 @@ export class App {
       .catch(() =>
         this.loadError.set('Could not load the catalogue.'),
       );
+  }
+
+  // S6: forget the token; the catalogue is open to everyone.
+  protected signOut(): void {
+    this.tokenStore.clear();
+    this.router.navigate(['/books']);
   }
 }

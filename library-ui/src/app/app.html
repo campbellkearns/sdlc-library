@@ -6,8 +6,20 @@
       routerLinkActive="active"
       [routerLinkActiveOptions]="{ exact: true }"
     >Catalogue</a>
-    <a routerLink="/books/new" routerLinkActive="active">Add a book</a>
+    @if (tokenStore.isLibrarian()) {
+      <a routerLink="/books/new" routerLinkActive="active">Add a book</a>
+    }
+    @if (!tokenStore.isAuthenticated()) {
+      <a routerLink="/login" routerLinkActive="active">Sign in</a>
+    }
   </nav>
+  @if (tokenStore.isAuthenticated()) {
+    <p class="session">
+      Signed in as {{ tokenStore.currentUsername() }}
+      ({{ tokenStore.currentRoles().join(', ') }})
+      <button (click)="signOut()">Sign out</button>
+    </p>
+  }
   <app-book-count />
 </header>
 

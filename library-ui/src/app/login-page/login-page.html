@@ -1,0 +1,42 @@
+<section class="login-page">
+  <h2>Sign in</h2>
+
+  <form [formRoot]="loginForm">
+    <div class="field">
+      <label for="username">Username</label>
+      <input id="username" [formField]="loginForm.username" />
+      @if (
+        loginForm.username().touched() &&
+        loginForm.username().invalid()
+      ) {
+        @for (error of loginForm.username().errors(); track error) {
+          <p class="field-error">{{ error.message }}</p>
+        }
+      }
+    </div>
+
+    <div class="field">
+      <label for="password">Password</label>
+      <input
+        id="password"
+        type="password"
+        [formField]="loginForm.password"
+      />
+      @if (
+        loginForm.password().touched() &&
+        loginForm.password().invalid()
+      ) {
+        @for (error of loginForm.password().errors(); track error) {
+          <p class="field-error">{{ error.message }}</p>
+        }
+      }
+    </div>
+
+    <button type="submit">Sign in</button>
+  </form>
+
+  <!-- S3: the action's answer when sign-in fails. -->
+  @for (error of loginForm().errors(); track error) {
+    <p class="error">{{ error.message }}</p>
+  }
+</section>

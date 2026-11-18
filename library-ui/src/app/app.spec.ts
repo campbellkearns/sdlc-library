@@ -10,6 +10,8 @@ import { App } from './app';
 import { routes } from './app.routes';
 import { Book } from './book';
 import { LIBRARY_API } from './books-api';
+import { makeToken } from './testing/make-token';
+import { TokenStore } from './token-store';
 
 const DUNE: Book = {
   id: 'd1',
@@ -64,5 +66,31 @@ describe('App', () => {
 
     const page = fixture.nativeElement as HTMLElement;
     expect(page.textContent).toContain('Books: 2');
+  });
+
+  // The students write these two in the lab.
+  it('shows who is signed in (S2)', async () => {
+    TestBed.inject(TokenStore).setToken(
+      makeToken({ sub: 'rosa', roles: ['LIBRARIAN'] }),
+    );
+    const fixture = TestBed.createComponent(App);
+    await fixture.whenStable();
+
+    const page = fixture.nativeElement as HTMLElement;
+    expect(page.textContent).toContain(
+      'Signed in as rosa (LIBRARIAN)',
+    );
+    expect(page.textContent).toContain('Add a book');
+  });
+
+  it('shows no Add a book link to a reader (S5)', async () => {
+    TestBed.inject(TokenStore).setToken(
+      makeToken({ sub: 'sam', roles: ['READER'] }),
+    );
+    const fixture = TestBed.createComponent(App);
+    await fixture.whenStable();
+
+    const page = fixture.nativeElement as HTMLElement;
+    expect(page.textContent).not.toContain('Add a book');
   });
 });

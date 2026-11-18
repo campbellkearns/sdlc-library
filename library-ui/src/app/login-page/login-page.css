@@ -1,0 +1,23 @@
+.error {
+  color: #b00020;
+  font-weight: 600;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 300px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.field-error {
+  color: #b00020;
+  font-size: 0.85rem;
+  margin: 0;
+}
