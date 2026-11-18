@@ -1,6 +1,6 @@
 # Lab 20: Signing in to the Library
 
-In class we built sign-in: a token store, a sign-in page at `/login`, and an interceptor that sends the token to the Library service. But nothing on screen says who is signed in, and anyone can still open Add a book. You finish the story.
+In class we built sign-in: a token store, a sign-in page at `/login`, an interceptor that sends the token to the Library service, and half a guard that keeps signed-out visitors away from Add a book. But nothing on screen says who is signed in, and any signed-in user, reader or not, can still open Add a book. You finish the story.
 
 Work **test first**, as before: red, green, refactor.
 
@@ -33,7 +33,7 @@ From BR-08: *only librarians should be able to change the catalogue; readers can
 
 ### Acceptance criteria
 
-- **S1.** Signed out, when I open Add a book, I am taken to Sign in.
+- **S1.** Signed out, when I open Add a book, I am taken to Sign in. *(done in class)*
 - **S2.** After I sign in, the header says "Signed in as rosa (LIBRARIAN)". *(signing in was done in class; the header is yours)*
 - **S3.** A wrong password says "Invalid username or password.". No answer from the sign-in service says "Could not reach the sign-in service.". *(done in class)*
 - **S4.** My token goes with every request to the Library service, and to nobody else. *(done in class; you prove "nobody else")*
@@ -74,20 +74,18 @@ readonly isLibrarian = computed(() =>
 
 </details>
 
-## L2. A guard on Add a book (S1, S5)
+## L2. Finish the guard: librarians only (S1, S5)
 
-A **guard** is a function the router runs before it opens a route. It answers `true` (go ahead) or a URL (go there instead).
+A **guard** is a function the router runs before it opens a route. It answers `true` (go ahead) or a URL (go there instead). In class, `librarianGuard` got its first half: signed out goes to `/login`. Right now **sam** gets in too. Make it a librarian guard.
 
-1. Generate it: `npx ng g guard librarian --implements CanActivate`. You get `librarian-guard.ts` and a spec whose `executeGuard` runs the guard the way the router would.
-2. **Tests first**, in `librarian-guard.spec.ts`:
-   - signed out, it sends you to `/login` (S1);
+1. **Tests first**, in `librarian-guard.spec.ts`. The generated spec's `executeGuard` runs the guard the way the router would; use it for all three:
+   - signed out, it sends you to `/login` (S1). This one passes at once: class did it;
    - signed in as rosa, it answers `true`;
-   - signed in as sam, it sends you to `/books` (S5).
+   - signed in as sam, it sends you to `/books` (S5). **This is your red.**
 
    A URL comes back as a `UrlTree`. `String(result)` turns it into `'/login'`, which is easy to check.
-3. **Green:** write the guard. `inject(Router).parseUrl('/login')` makes the `UrlTree`.
-4. Put it on the route: `canActivate: [librarianGuard]` on `books/new` in `app.routes.ts`.
-5. **Browser:** signed out, type `localhost:4200/books/new` in the address bar: you land on Sign in. Sign in as rosa, then **click** Add a book: the form opens.
+2. **Green:** ask `isLibrarian()` (L1) first. Not a librarian: signed in goes to `/books`, signed out to `/login`.
+3. **Browser:** sign in as sam. You cannot click Add a book yet (L3 hides it), so check the guard through its tests. Sign in as rosa, then **click** Add a book: the form opens.
 
 Ask yourself: signed in as rosa, you type `/books/new` into the address bar instead of clicking. Where do you land, and why? (Look at S6.)
 
@@ -781,6 +779,35 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([authInterceptor])),
   ]
 };
+```
+
+</details>
+
+<details>
+<summary>librarian-guard.ts (half: signed in or not) and its route</summary>
+
+Generated with `npx ng g guard librarian --implements CanActivate` (keep the generated spec). In `app.routes.ts`, on `books/new`, after `loadComponent` (import `librarianGuard`):
+
+```ts
+import { inject } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
+import { TokenStore } from './token-store';
+
+// S1: only a signed-in visitor reaches Add a book.
+// (The lab makes it "only a librarian", BR-08.)
+export const librarianGuard: CanActivateFn = () => {
+  if (inject(TokenStore).isAuthenticated()) {
+    return true;
+  }
+
+  // Returning a URL sends the visitor there instead.
+  return inject(Router).parseUrl('/login');
+};
+```
+
+```ts
+    // S1: checked before the screen loads.
+    canActivate: [librarianGuard],
 ```
 
 </details>
