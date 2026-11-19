@@ -1,6 +1,6 @@
 # Library: Add a Book (LIB-2), lab
 
-> **Labs in this repo:** LIB-2, Add a Book (this page) · [Lab 19, Routing](docs/lab-19-routing.md) · [Lab 20, Sign in](docs/lab-20-sign-in.md)
+> **Labs in this repo:** LIB-2, Add a Book (this page) · [Lab 19, Routing](docs/lab-19-routing.md) · [Lab 20, Sign in](docs/lab-20-sign-in.md) · [Auth service lab](docs/lab-auth-service.md)
 
 You are finishing one user story, **test first**. In class we wrote the story and its acceptance criteria, broke it into tasks, and started task T1: the title's rules already work, with four tests. Now you finish the story.
 
@@ -13,6 +13,7 @@ The business requirements are in [`docs/brd-excerpt.md`](docs/brd-excerpt.md).
 | `library-service/` | The Library service from Week 4 (Spring Boot). It already refuses bad books and duplicates (409). |
 | `library-ui/` | The Angular app. The Add a book form checks the title. The five books on screen are typed into `library-store.ts`. |
 | `library-auth-stub/` | A stand-in sign-in service on port 3000 (Lab 20). Week 6's auth service replaces it. |
+| `library-auth-service/` | The Library auth service (NestJS, Postgres), built in class. Replaces the stub. |
 
 ## Setup
 
