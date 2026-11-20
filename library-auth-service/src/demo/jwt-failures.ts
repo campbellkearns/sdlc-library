@@ -1,3 +1,4 @@
+// NEW (not covered in class): this whole file.
 // DEMO ONLY. Three ways a token fails verification.
 // Run with: npm run demo:jwt
 import * as jwt from "jsonwebtoken";

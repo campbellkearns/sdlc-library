@@ -1,3 +1,4 @@
+// NEW (not covered in class): this whole file.
 // DEMO ONLY. Shows what the $1 placeholders prevent.
 // Run with: npm run demo:injection
 import { Pool } from "pg";

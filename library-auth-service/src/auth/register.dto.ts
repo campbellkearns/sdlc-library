@@ -1,4 +1,5 @@
 import { IsString, MinLength } from "class-validator";
+// NEW (not covered in class): OpenAPI, each @ApiProperty.
 import { ApiProperty } from "@nestjs/swagger";
 
 export class RegisterDto {
