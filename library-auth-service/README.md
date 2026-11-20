@@ -1,4 +1,4 @@
-# library-auth-service (end of the demo)
+# library-auth-service (after the labs)
 
 The Library's sign-in service: NestJS 11, Postgres (`pg`), bcrypt,
 HS256 JWT. It replaces `library-auth-stub` with the same contract.
@@ -34,3 +34,9 @@ OpenAPI docs: http://localhost:3000/api
 npm run demo:injection   # string-built SQL vs a $1 placeholder
 npm run demo:jwt         # a token edited, wrong secret, expired
 ```
+
+## Added by the labs
+
+- `GET /auth/me`: who does this token name? 401 unless it is good.
+- `GET /auth/users`: librarians only. 401 with no token, 403 for a
+  reader. Never returns password hashes.

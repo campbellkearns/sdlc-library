@@ -1,6 +1,8 @@
 import {
   Body,
   Controller,
+  Get,
+  Headers,
   HttpCode,
   Post,
 } from "@nestjs/common";
@@ -37,5 +39,22 @@ export class AuthController {
   @ApiResponse({ status: 401, description: "Bad credentials" })
   login(@Body() dto: LoginDto) {
     return this.auth.login(dto.username, dto.password);
+  }
+
+  @Get("me")
+  @ApiOperation({ summary: "Who does this token name?" })
+  @ApiResponse({ status: 200, description: "Who it names" })
+  @ApiResponse({ status: 401, description: "No or bad token" })
+  me(@Headers("authorization") authorization?: string) {
+    return this.auth.verify(authorization);
+  }
+
+  @Get("users")
+  @ApiOperation({ summary: "List users (librarians only)" })
+  @ApiResponse({ status: 200, description: "The user list" })
+  @ApiResponse({ status: 401, description: "No or bad token" })
+  @ApiResponse({ status: 403, description: "Not a librarian" })
+  users(@Headers("authorization") authorization?: string) {
+    return this.auth.listUsers(authorization);
   }
 }

@@ -1,5 +1,6 @@
 import {
   ConflictException,
+  ForbiddenException,
   Injectable,
   OnModuleInit,
   UnauthorizedException,
@@ -31,6 +32,11 @@ const SEED_USERS = [
     roles: ["READER"],
   },
 ];
+
+export interface Identity {
+  username: string;
+  roles: string[];
+}
 
 @Injectable()
 export class AuthService implements OnModuleInit {
@@ -90,5 +96,37 @@ export class AuthService implements OnModuleInit {
     // make it revocable. Not built today.
     const refreshToken = randomBytes(32).toString("hex");
     return { accessToken, refreshToken };
+  }
+
+  // Lab 1: who does this token name? 401 unless it is good.
+  verify(authorization?: string): Identity {
+    const prefix = "Bearer ";
+    if (!authorization || !authorization.startsWith(prefix)) {
+      throw new UnauthorizedException("missing bearer token");
+    }
+    try {
+      const claims = jwt.verify(
+        authorization.slice(prefix.length),
+        JWT_SECRET,
+        { algorithms: ["HS256"] },
+      ) as jwt.JwtPayload;
+      return {
+        username: String(claims.sub),
+        roles: claims.roles ?? [],
+      };
+    } catch {
+      throw new UnauthorizedException(
+        "invalid or expired token",
+      );
+    }
+  }
+
+  // Lab 2: librarians only. 401 no token, 403 for a reader.
+  async listUsers(authorization?: string) {
+    const caller = this.verify(authorization);
+    if (!caller.roles.includes("LIBRARIAN")) {
+      throw new ForbiddenException("librarians only");
+    }
+    return this.users.findAll();
   }
 }

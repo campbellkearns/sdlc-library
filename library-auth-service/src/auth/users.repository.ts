@@ -23,6 +23,13 @@ export class UsersRepository {
     return result.rows[0];
   }
 
+  async findAll(): Promise<Pick<User, "username" | "roles">[]> {
+    const result = await this.pool.query(
+      "SELECT username, roles FROM users ORDER BY id",
+    );
+    return result.rows;
+  }
+
   async insert(
     username: string,
     passwordHash: string,
